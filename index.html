@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EM4 Mods Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0f1117;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #1e90ff, #0066ff);
+}
+
+.upload-box, .controls {
+  max-width: 750px;
+  margin: 25px auto;
+  background: #161a23;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.upload-box input,
+.upload-box textarea,
+.controls input,
+.controls select {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  background: #0f1117;
+  border: 1px solid #2a2f3a;
+  border-radius: 8px;
+  color: white;
+}
+
+.upload-box textarea {
+  resize: none;
+  height: 80px;
+}
+
+.upload-box button {
+  width: 100%;
+  padding: 14px;
+  background: #1e90ff;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.mods {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
+
+.mod-card {
+  background: #161a23;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.3s ease;
+}
+
+.mod-card img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.actions button,
+.actions a {
+  background: #1e90ff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚓 EM4 Mods Hub</h1>
+  <p>Upload & download Emergency 4 mods</p>
+</header>
+
+<section class="upload-box">
+  <h2>Upload a Mod</h2>
+  <input id="modName" placeholder="Mod name" required>
+  <textarea id="modDesc" placeholder="Optional description"></textarea>
+  <input id="modImage" placeholder="Screenshot image URL">
+  <input id="modLink" placeholder="Download link" required>
+  <button onclick="addMod()">Upload Mod</button>
+</section>
+
+<section class="controls">
+  <input id="searchInput" placeholder="Search mods..." oninput="renderMods()">
+  <select id="ratingFilter" onchange="renderMods()">
+    <option value="0">All ratings</option>
+    <option value="5">⭐⭐⭐⭐⭐</option>
+    <option value="4">⭐⭐⭐⭐ & up</option>
+    <option value="3">⭐⭐⭐ & up</option>
+  </select>
+</section>
+
+<section class="mods">
+  <div id="modsList"></div>
+</section>
+
+<script>
+let mods = JSON.parse(localStorage.getItem("mods")) || [];
+
+function saveMods() {
+  localStorage.setItem("mods", JSON.stringify(mods));
+}
+
+function addMod() {
+  const name = modName.value.trim();
+  const desc = modDesc.value.trim();
+  const image = modImage.value.trim();
+  const link = modLink.value.trim();
+
+  if (!name || !link) return alert("Mod name and download link required");
+
+  mods.unshift({
+    id: Date.now(),
+    name,
+    desc,
+    image,
+    link,
+    likes: 0,
+    rating: 0
+  });
+
+  saveMods();
+  renderMods();
+
+  modName.value = "";
+  modDesc.value = "";
+  modImage.value = "";
+  modLink.value = "";
+}
+
+function likeMod(id) {
+  const mod = mods.find(m => m.id === id);
+  mod.likes++;
+  saveMods();
+  renderMods();
+}
+
+function rateMod(id, value) {
+  const mod = mods.find(m => m.id === id);
+  mod.rating = value;
+  saveMods();
+  renderMods();
+}
+
+function renderMods() {
+  const search = searchInput.value.toLowerCase();
+  const minRating = parseInt(ratingFilter.value);
+  modsList.innerHTML = "";
+
+  mods
+    .filter(m => m.name.toLowerCase().includes(search))
+    .filter(m => m.rating >= minRating)
+    .forEach(mod => {
+      const card = document.createElement("div");
+      card.className = "mod-card";
+
+      card.innerHTML = `
+        ${mod.image ? `<img src="${mod.image}">` : ""}
+        <h3>${mod.name}</h3>
+        ${mod.desc ? `<p>${mod.desc}</p>` : ""}
+        <div class="actions">
+          <a href="${mod.link}" target="_blank">⬇ Download</a>
+          <button onclick="likeMod(${mod.id})">❤️ ${mod.likes}</button>
+          <div>
+            ${[1,2,3,4,5].map(i =>
+              `<span class="star" onclick="rateMod(${mod.id},${i})">${i <= mod.rating ? "⭐" : "☆"}</span>`
+            ).join("")}
+          </div>
+        </div>
+      `;
+      modsList.appendChild(card);
+    });
+}
+
+renderMods();
+</script>
+
+</body>
+</html>
