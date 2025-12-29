@@ -2,111 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EM4 Mods Hub</title>
+<title>EM4 Mods</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+:root {
+  --bg:#0b0f1a;
+  --glass:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.12);
+  --accent:#3b82f6;
+  --text-dim:rgba(255,255,255,.75);
 }
 
-body {
-  margin: 0;
-  background: #0f1117;
-  color: white;
+*{box-sizing:border-box;font-family:Inter,sans-serif}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#131c3a,var(--bg));
+  color:white;
 }
 
-header {
-  text-align: center;
-  padding: 40px;
-  background: linear-gradient(135deg, #1e90ff, #0066ff);
+header{
+  padding:90px 20px 60px;
+  text-align:center;
 }
 
-.upload-box, .controls {
-  max-width: 750px;
-  margin: 25px auto;
-  background: #161a23;
-  padding: 20px;
-  border-radius: 14px;
+header h1{font-size:3.2rem;margin:0}
+header p{color:var(--text-dim)}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px 80px;
 }
 
-.upload-box input,
-.upload-box textarea,
-.controls input,
-.controls select {
-  width: 100%;
-  margin: 8px 0;
-  padding: 12px;
-  background: #0f1117;
-  border: 1px solid #2a2f3a;
-  border-radius: 8px;
-  color: white;
+.glass{
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  border-radius:18px;
 }
 
-.upload-box textarea {
-  resize: none;
-  height: 80px;
+/* UPLOAD */
+.upload{
+  padding:22px;
+  margin-bottom:40px;
 }
 
-.upload-box button {
-  width: 100%;
-  padding: 14px;
-  background: #1e90ff;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
+.upload input,.upload textarea{
+  width:100%;
+  margin:8px 0;
+  padding:14px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:14px;
+  color:white;
 }
 
-.mods {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 0 15px;
+.upload textarea{resize:none;height:90px}
+
+.upload button{
+  width:100%;
+  padding:15px;
+  background:var(--accent);
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
 }
 
-.mod-card {
-  background: #161a23;
-  padding: 20px;
-  border-radius: 14px;
-  margin-bottom: 20px;
-  animation: fadeUp 0.3s ease;
+.upload button:hover{transform:scale(1.03)}
+
+/* MOD GRID */
+.mods{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:26px;
 }
 
-.mod-card img {
-  width: 100%;
-  max-height: 240px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
+.mod{
+  padding:18px;
+  animation:fade .4s ease;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
+.mod:hover{transform:translateY(-6px)}
+
+.mod img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:14px;
+  margin-bottom:10px;
 }
 
-.actions button,
-.actions a {
-  background: #1e90ff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
+.mod p{color:var(--text-dim)}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
 }
 
-.star {
-  cursor: pointer;
-  font-size: 22px;
+.actions a{
+  background:var(--accent);
+  padding:8px 14px;
+  border-radius:10px;
+  color:white;
+  text-decoration:none;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.star{cursor:pointer;font-size:18px}
+
+/* COMMENTS */
+.comments{
+  margin-top:12px;
+}
+
+.comments input{
+  width:100%;
+  margin-top:6px;
+  padding:10px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:white;
+}
+
+.comment{
+  font-size:.9rem;
+  margin-top:6px;
+  color:var(--text-dim);
+}
+
+/* FORUM */
+.forum{
+  margin-top:90px;
+}
+
+.post{
+  padding:18px;
+  margin-bottom:16px;
+}
+
+.post h4{margin:0}
+.post p{color:var(--text-dim)}
+
+.reply{
+  font-size:.9rem;
+  margin-top:6px;
+  color:var(--text-dim);
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -114,110 +167,134 @@ header {
 <body>
 
 <header>
-  <h1>🚓 EM4 Mods Hub</h1>
-  <p>Upload & download Emergency 4 mods</p>
+  <h1>Emergency 4 Mods</h1>
+  <p>Public community hub for Emergency 4 modding</p>
 </header>
 
-<section class="upload-box">
-  <h2>Upload a Mod</h2>
-  <input id="modName" placeholder="Mod name" required>
-  <textarea id="modDesc" placeholder="Optional description"></textarea>
-  <input id="modImage" placeholder="Screenshot image URL">
-  <input id="modLink" placeholder="Download link" required>
-  <button onclick="addMod()">Upload Mod</button>
-</section>
+<div class="container">
 
-<section class="controls">
-  <input id="searchInput" placeholder="Search mods..." oninput="renderMods()">
-  <select id="ratingFilter" onchange="renderMods()">
-    <option value="0">All ratings</option>
-    <option value="5">⭐⭐⭐⭐⭐</option>
-    <option value="4">⭐⭐⭐⭐ & up</option>
-    <option value="3">⭐⭐⭐ & up</option>
-  </select>
-</section>
+<!-- MOD UPLOAD -->
+<div class="upload glass">
+  <h2>Share a Mod</h2>
+  <input id="mName" placeholder="Mod name">
+  <textarea id="mDesc" placeholder="Description (optional)"></textarea>
+  <input id="mImg" placeholder="Screenshot URL">
+  <input id="mLink" placeholder="Download link">
+  <button onclick="addMod()">Publish Mod</button>
+</div>
 
-<section class="mods">
-  <div id="modsList"></div>
-</section>
+<div id="mods" class="mods"></div>
+
+<!-- FORUM -->
+<div class="forum">
+  <h2>Community Help</h2>
+
+  <div class="upload glass">
+    <input id="fTitle" placeholder="Question title">
+    <textarea id="fText" placeholder="Describe your issue"></textarea>
+    <button onclick="addPost()">Post Question</button>
+  </div>
+
+  <div id="posts"></div>
+</div>
+
+</div>
 
 <script>
-let mods = JSON.parse(localStorage.getItem("mods")) || [];
+let mods=JSON.parse(localStorage.getItem("mods"))||[];
+let posts=JSON.parse(localStorage.getItem("posts"))||[];
 
-function saveMods() {
-  localStorage.setItem("mods", JSON.stringify(mods));
+function save(){
+  localStorage.setItem("mods",JSON.stringify(mods));
+  localStorage.setItem("posts",JSON.stringify(posts));
 }
 
-function addMod() {
-  const name = modName.value.trim();
-  const desc = modDesc.value.trim();
-  const image = modImage.value.trim();
-  const link = modLink.value.trim();
-
-  if (!name || !link) return alert("Mod name and download link required");
-
+function addMod(){
+  if(!mName.value||!mLink.value)return;
   mods.unshift({
-    id: Date.now(),
-    name,
-    desc,
-    image,
-    link,
-    likes: 0,
-    rating: 0
+    id:Date.now(),
+    name:mName.value,
+    desc:mDesc.value,
+    img:mImg.value,
+    link:mLink.value,
+    rating:0,
+    comments:[]
   });
-
-  saveMods();
-  renderMods();
-
-  modName.value = "";
-  modDesc.value = "";
-  modImage.value = "";
-  modLink.value = "";
+  save();renderMods();
+  mName.value=mDesc.value=mImg.value=mLink.value="";
 }
 
-function likeMod(id) {
-  const mod = mods.find(m => m.id === id);
-  mod.likes++;
-  saveMods();
-  renderMods();
+function rate(id,v){
+  mods.find(m=>m.id===id).rating=v;
+  save();renderMods();
 }
 
-function rateMod(id, value) {
-  const mod = mods.find(m => m.id === id);
-  mod.rating = value;
-  saveMods();
-  renderMods();
+function addComment(id,input){
+  if(!input.value)return;
+  mods.find(m=>m.id===id).comments.push(input.value);
+  save();renderMods();
 }
 
-function renderMods() {
-  const search = searchInput.value.toLowerCase();
-  const minRating = parseInt(ratingFilter.value);
-  modsList.innerHTML = "";
-
-  mods
-    .filter(m => m.name.toLowerCase().includes(search))
-    .filter(m => m.rating >= minRating)
-    .forEach(mod => {
-      const card = document.createElement("div");
-      card.className = "mod-card";
-
-      card.innerHTML = `
-        ${mod.image ? `<img src="${mod.image}">` : ""}
-        <h3>${mod.name}</h3>
-        ${mod.desc ? `<p>${mod.desc}</p>` : ""}
-        <div class="actions">
-          <a href="${mod.link}" target="_blank">⬇ Download</a>
-          <button onclick="likeMod(${mod.id})">❤️ ${mod.likes}</button>
-          <div>
-            ${[1,2,3,4,5].map(i =>
-              `<span class="star" onclick="rateMod(${mod.id},${i})">${i <= mod.rating ? "⭐" : "☆"}</span>`
-            ).join("")}
-          </div>
-        </div>
-      `;
-      modsList.appendChild(card);
-    });
+function renderMods(){
+  modsBox.innerHTML="";
+  mods.forEach(m=>{
+    const d=document.createElement("div");
+    d.className="mod glass";
+    d.innerHTML=`
+      ${m.img?`<img src="${m.img}">`:""}
+      <h3>${m.name}</h3>
+      <p>${m.desc||""}</p>
+      <div class="actions">
+        <a href="${m.link}" target="_blank">Download</a>
+        <div>${[1,2,3,4,5].map(i=>`<span class="star" onclick="rate(${m.id},${i})">${i<=m.rating?"⭐":"☆"}</span>`).join("")}</div>
+      </div>
+      <div class="comments">
+        ${m.comments.map(c=>`<div class="comment">• ${c}</div>`).join("")}
+        <input placeholder="Add comment..." onkeydown="if(event.key==='Enter')addComment(${m.id},this)">
+      </div>
+    `;
+    modsBox.appendChild(d);
+  });
 }
+
+function addPost(){
+  if(!fTitle.value||!fText.value)return;
+  posts.unshift({id:Date.now(),title:fTitle.value,text:fText.value,replies:[]});
+  save();renderPosts();
+  fTitle.value=fText.value="";
+}
+
+function addReply(id,input){
+  if(!input.value)return;
+  posts.find(p=>p.id===id).replies.push(input.value);
+  save();renderPosts();
+}
+
+function renderPosts(){
+  postsBox.innerHTML="";
+  posts.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="post glass";
+    d.innerHTML=`
+      <h4>${p.title}</h4>
+      <p>${p.text}</p>
+      ${p.replies.map(r=>`<div class="reply">↳ ${r}</div>`).join("")}
+      <input placeholder="Reply..." onkeydown="if(event.key==='Enter')addReply(${p.id},this)">
+    `;
+    postsBox.appendChild(d);
+  });
+}
+
+const modsBox=document.getElementById("mods");
+const postsBox=document.getElementById("posts");
+
+renderMods();
+renderPosts();
+</script>
+
+</body>
+</html>
+
 
 renderMods();
 </script>
